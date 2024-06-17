@@ -1,6 +1,3 @@
-
-
-
 #include "Processing_Tree.h"
 
 std::string str_01 = "+---";
@@ -12,15 +9,13 @@ std::deque<std::string> Hierarchy;
 
 void ProcessingLine(std::string line) {
     int pos = std::string::npos;
-    if ((pos = line.find("+---")) != std::string::npos || (pos = line.find("\\---")) != std::string::npos) {
+    if ((pos = line.find("+---")) != std::string::npos || (pos = line.find("\\---")) != std::string::npos ) {
         Only_Directory += line + "\n";
         ExtractingLine(line);
-    }
-    else if (((line.find("|") == std::string::npos) && (line.find(" ") == std::string::npos))) {
+    } else if (((line.find("|") == std::string::npos) && (line.find(" ") == std::string::npos))) {
         Only_Directory += line + "\n";
         ExtractingLine(line);
-    }
-    else {
+    } else {
         return;
     }
 }
@@ -45,8 +40,7 @@ int calculateDepth(std::string line) {
         if ((spaceLength - 3) % 4 == 0) {
             int depth = (spaceLength - 3) / 4;
             totalDepth += (depth + 1);
-        }
-        else {
+        } else {
             std::cerr << "Invalid space length between '|' characters: " << spaceLength << std::endl;
             return -1;
         }
@@ -62,15 +56,13 @@ int calculateDepth(std::string line) {
 
     if (lastPatternPos == 0) {
         totalDepth = 1;
-    }
-    else if (lastPatternPos != std::string::npos) {
+    } else if (lastPatternPos != std::string::npos) {
         int spaceLength = lastPatternPos - prev_pos - 1;
 
         if ((spaceLength - 3) % 4 == 0) {
             int depth = (spaceLength - 3) / 4;
             totalDepth += (depth + 1);
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -81,7 +73,11 @@ int calculateDepth(std::string line) {
 void ExtractingLine(std::string line) {
     int depth = calculateDepth(line);
 
-    size_t pos = line.find_last_of("-") + 1;
+    // size_t pos = line.find_last_of("-") + 1;
+    size_t pos = line.find_last_of("+---") + 1;
+    if (pos == std::string::npos)
+        pos = line.find_last_of("\\---") + 1;
+
     std::string folderName = line.substr(pos);
 
     if (Hierarchy.size() > depth) {
@@ -90,7 +86,7 @@ void ExtractingLine(std::string line) {
     }
 
     std::string fullPath = "";
-    for (const auto& folder : Hierarchy) {
+    for (auto folder : Hierarchy) {
         if (folder != "C:.")
             fullPath.append("\\" + folder);
         else

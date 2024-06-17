@@ -1,6 +1,5 @@
-#pragma once
 //
-// Created by ¹ÚÁØ±Ô on 24. 6. 16.
+// Created by ??? on 24. 6. 16.
 //
 
 #ifndef UNTITLED_SIMILARITY_H
@@ -25,6 +24,8 @@ private:
     priority_queue<node> Results;
 
     void CalculateSimilarity(node& Folder_info);
+    int calculateLevenshteinDistance(const string& s1, const string& s2);
+    double calculateStringSimilarity(const string& token1, const string& token2);
     double calculateTokenSimilarity(const string& token1, const string& token2);
     vector<string> splitStringByDelimiter(const string& str, char delimiter);
 
